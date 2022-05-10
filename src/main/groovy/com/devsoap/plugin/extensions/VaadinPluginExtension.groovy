@@ -30,7 +30,7 @@ import org.gradle.api.provider.Provider
  */
 class VaadinPluginExtension {
 
-    static final NAME = 'vaadin'
+    static final NAME = 'vaadin8'
 
     private static final String VAADIN_VERSION_PROPERTY = 'vaadinVersion'
 

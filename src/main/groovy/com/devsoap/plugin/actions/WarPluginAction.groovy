@@ -69,7 +69,7 @@ class WarPluginAction extends PluginAction {
         assert task in War
         War war = (War) task
         war.exclude('VAADIN/gwt-unitCache/**')
-        if ( task.project.vaadin.manageDependencies ) {
+        if (task.project.vaadin8.manageDependencies) {
             war.classpath = Util.getWarClasspath(task.project).files
         }
     }

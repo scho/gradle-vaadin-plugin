@@ -198,8 +198,8 @@ class Util {
      *      a new collection with the GWT SDK libs listed first
      */
     @Memoized
-    static FileCollection moveGwtSdkFirstInClasspath(Project project , FileCollection collection) {
-        if ( project.vaadin.manageDependencies ) {
+    static FileCollection moveGwtSdkFirstInClasspath(Project project, FileCollection collection) {
+        if (project.vaadin8.manageDependencies) {
             FileCollection gwtCompilerClasspath = project.configurations[GradleVaadinPlugin.CONFIGURATION_CLIENT]
             return gwtCompilerClasspath + (collection - gwtCompilerClasspath)
         } else if ( project.vaadinCompile.gwtSdkFirstInClasspath ) {
@@ -221,10 +221,10 @@ class Util {
      *      The source set
      */
     @Memoized
-    static SourceDirectorySet getMainSourceSet(Project project, boolean forceDefaultJavaSourceset=false) {
-        if ( project.vaadin.mainSourceSet ) {
-            project.vaadin.mainSourceSet
-        } else if(forceDefaultJavaSourceset) {
+    static SourceDirectorySet getMainSourceSet(Project project, boolean forceDefaultJavaSourceset = false) {
+        if (project.vaadin8.mainSourceSet) {
+            project.vaadin8.mainSourceSet
+        } else if (forceDefaultJavaSourceset) {
             project.sourceSets.main.java
         } else {
             switch (getProjectType(project)) {
@@ -249,10 +249,10 @@ class Util {
      *      The source set
      */
     @Memoized
-    static SourceDirectorySet getMainTestSourceSet(Project project, forceDefaultJavaSourceset=false) {
-        if ( project.vaadin.mainTestSourceSet ) {
-            project.vaadin.mainTestSourceSet
-        } else if(forceDefaultJavaSourceset) {
+    static SourceDirectorySet getMainTestSourceSet(Project project, forceDefaultJavaSourceset = false) {
+        if (project.vaadin8.mainTestSourceSet) {
+            project.vaadin8.mainTestSourceSet
+        } else if (forceDefaultJavaSourceset) {
             project.sourceSets.test.java
         } else {
             switch (getProjectType(project)) {
@@ -388,7 +388,7 @@ class Util {
      *      Optional additional monitor closure for processing output
      */
     static void logProcess(final Project project, final Process process, final String filename, Closure monitor) {
-        if ( project.vaadin.logToConsole ) {
+        if (project.vaadin8.logToConsole) {
             logProcessToConsole(project, process, monitor)
         } else {
             logProcessToFile(project, process, filename, monitor)
@@ -1076,7 +1076,7 @@ class Util {
      * @return
      *      the configured builder
      */
-    static HTTPBuilder configureHttpBuilder(HTTPBuilder http, int timeout=5000, int retryCount=1) {
+    static HTTPBuilder configureHttpBuilder(HTTPBuilder http, int timeout = 5000, int retryCount = 1) {
         // SSL
         http.ignoreSSLIssues()
 

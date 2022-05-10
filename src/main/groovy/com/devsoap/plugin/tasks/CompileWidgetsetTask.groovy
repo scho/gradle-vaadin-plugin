@@ -32,6 +32,8 @@ import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.CacheableTask
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
 import java.util.concurrent.TimeUnit
@@ -225,7 +227,7 @@ class CompileWidgetsetTask extends DefaultTask {
             /* Monitor changes in dependencies since upgrading a
             * dependency should also trigger a recompile of the widgetset
             */
-            inputs.files(project.configurations.compile)
+            inputs.files(project.configurations.compileClasspath)
             inputs.files(project.configurations[GradleVaadinPlugin.CONFIGURATION_CLIENT])
             inputs.files(project.configurations[GradleVaadinPlugin.CONFIGURATION_CLIENT_COMPILE])
 
@@ -248,7 +250,7 @@ class CompileWidgetsetTask extends DefaultTask {
             }
 
             // Add classpath jar
-            if ( project.vaadin.useClassPathJar ) {
+            if (project.vaadin8.useClassPathJar) {
                 BuildClassPathJar pathJarTask = project.tasks.getByName(BuildClassPathJar.NAME)
                 inputs.file(pathJarTask.archivePath)
             }
@@ -280,6 +282,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Compilation style
      */
+    @Input
     String getStyle() {
         style.get()
     }
@@ -294,6 +297,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Should the compilation result be optimized
      */
+    @Input
     Integer getOptimize() {
         optimize.get()
     }
@@ -308,6 +312,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Should logging be enabled
      */
+    @Input
     Boolean getLogEnabled() {
         logEnabled.get()
     }
@@ -322,6 +327,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * The log level. Possible levels NONE,DEBUG,TRACE,INFO
      */
+    @Input
     String getLogLevel() {
         logLevel.get()
     }
@@ -336,6 +342,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Amount of local workers used when compiling. By default the amount of processors.
      */
+    @Input
     Integer getLocalWorkers() {
         localWorkers.get()
     }
@@ -350,6 +357,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Should draft compile be used
      */
+    @Input
     Boolean getDraftCompile() {
         draftCompile.get()
     }
@@ -364,6 +372,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Should strict compiling be used
      */
+    @Input
     Boolean getStrict() {
         strict.get()
     }
@@ -378,6 +387,8 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * What user agents (browsers should be used. By defining null all user agents are used.
      */
+    @Input
+    @Optional
     String getUserAgent() {
         userAgent.getOrNull()
     }
@@ -392,6 +403,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Extra jvm arguments passed the JVM running the compiler
      */
+    @Input
     String[] getJvmArgs() {
         jvmArgs.present ? jvmArgs.get().toArray(new String[jvmArgs.get().size()]) : null
     }
@@ -406,6 +418,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Extra arguments passed to the compiler
      */
+    @Input
     String[] getExtraArgs() {
         extraArgs.present ? extraArgs.get().toArray(new String[extraArgs.get().size()]) : null
     }
@@ -420,8 +433,9 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Source paths where the compiler will look for source files
      */
+    @Input
     String[] getSourcePaths() {
-        sourcePaths.present ? sourcePaths.get().toArray(new String[sourcePaths.get().size()]): null
+        sourcePaths.present ? sourcePaths.get().toArray(new String[sourcePaths.get().size()]) : null
     }
 
     /**
@@ -434,6 +448,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Should the compiler permutations be collapsed to save time
      */
+    @Input
     Boolean getCollapsePermutations() {
         collapsePermutations.get()
     }
@@ -448,6 +463,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Extra module inherits
      */
+    @Input
     String[] getExtraInherits() {
         extraInherits.present ? extraInherits.get().toArray(new String[extraInherits.get().size()]) : null
     }
@@ -462,6 +478,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Should GWT be placed first in the classpath when compiling the widgetset.
      */
+    @Input
     Boolean getGwtSdkFirstInClasspath() {
         gwtSdkFirstInClasspath.get()
     }
@@ -476,6 +493,8 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * (Optional) root directory, for generated files; default is the web-app dir from the WAR plugin
      */
+    @Input
+    @Optional
     String getOutputDirectory() {
         outputDirectory.getOrNull()
     }
@@ -490,6 +509,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Use the widgetset CDN located at cdn.virit.in
      */
+    @Input
     Boolean getWidgetsetCDN() {
         widgetsetCDN.get()
     }
@@ -504,6 +524,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Should the Vaadin client side profiler be used
      */
+    @Input
     Boolean getProfiler() {
         profiler.get()
     }
@@ -518,6 +539,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Should the plugin manage the widgetset (gwt.xml file)
      */
+    @Input
     Boolean getManageWidgetset() {
         manageWidgetset.get()
     }
@@ -530,8 +552,10 @@ class CompileWidgetsetTask extends DefaultTask {
     }
 
     /**
-     * The widgetset to use for the project. Leave emptu for a pure server side project
+     * The widgetset to use for the project. Leave empty for a pure server side project
      */
+    @Input
+    @Optional
     String getWidgetset() {
         widgetset.getOrNull()
     }
@@ -546,6 +570,8 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * The widgetset generator to use
      */
+    @Input
+    @Optional
     String getWidgetsetGenerator() {
         widgetsetGenerator.getOrNull()
     }
@@ -560,6 +586,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Should the widgetset compiler use a proxy
      */
+    @Input
     Boolean getProxyEnabled() {
         proxyEnabled.get()
     }
@@ -581,6 +608,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * The proxy port
      */
+    @Input
     Integer getProxyPort() {
         proxyPort.get()
     }
@@ -602,6 +630,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * The proxy scheme
      */
+    @Input
     String getProxyScheme() {
         proxyScheme.get()
     }
@@ -623,6 +652,7 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * The proxy url
      */
+    @Input
     String getProxyHost() {
         proxyHost.get()
     }
@@ -644,6 +674,8 @@ class CompileWidgetsetTask extends DefaultTask {
     /**
      * Proxy authentication configuration
      */
+    @Input
+    @Optional
     AuthConfig getProxyAuth() {
         proxyAuth.getOrNull()
     }

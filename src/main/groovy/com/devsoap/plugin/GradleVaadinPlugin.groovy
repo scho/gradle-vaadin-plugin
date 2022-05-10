@@ -275,7 +275,7 @@ class GradleVaadinPlugin implements Plugin<Project> {
             }
 
             // Remove configurations if the plugin shouldn't manage them
-            if ( !p.vaadin.manageDependencies ) {
+            if (!p.vaadin8.manageDependencies) {
                 p.configurations.removeAll({ Configuration conf ->
                    conf.name.startsWith('vaadin-')
                 })
@@ -285,7 +285,7 @@ class GradleVaadinPlugin implements Plugin<Project> {
 
     private static void applyRepositories(Project project) {
         project.afterEvaluate { Project p ->
-            if ( !p.vaadin.manageRepositories ) {
+            if (!p.vaadin8.manageRepositories) {
                 return
             }
 
@@ -296,12 +296,12 @@ class GradleVaadinPlugin implements Plugin<Project> {
 
             repositories.maven { repository ->
                 repository.name = ADDON_REPOSITORY_NAME
-                repository.url = 'http://maven.vaadin.com/vaadin-addons'
+                repository.url = 'https://maven.vaadin.com/vaadin-addons'
             }
 
             repositories.maven { repository ->
                 repository.name = VAADIN_SNAPSHOT_REPOSITORY_NAME
-                repository.url = 'http://oss.sonatype.org/content/repositories/vaadin-snapshots'
+                repository.url = 'https://oss.sonatype.org/content/repositories/vaadin-snapshots'
             }
 
             repositories.maven { repository ->
@@ -532,8 +532,8 @@ class GradleVaadinPlugin implements Plugin<Project> {
 
                     // Needed so bootRepackage can include all dependencies in Jar
                     conf.extendsFrom(
-                            project.configurations['compile'],
-                            project.configurations['runtime'],
+                            project.configurations['compileClasspath'],
+                            project.configurations['runtimeClasspath'],
                             project.configurations[CONFIGURATION_PUSH],
                             project.configurations[CONFIGURATION_CLIENT_COMPILE]
                     )

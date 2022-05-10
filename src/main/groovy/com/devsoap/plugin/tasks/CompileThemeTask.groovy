@@ -27,6 +27,7 @@ import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.gradle.tooling.BuildActionFailureException
 
@@ -104,6 +105,8 @@ class CompileThemeTask extends DefaultTask {
     /**
      * Get custom directory where themes can be found
      */
+    @Optional
+    @Input
     String getThemesDirectory() {
         themesDirectory.getOrNull()
     }
@@ -162,6 +165,8 @@ class CompileThemeTask extends DefaultTask {
     /**
      * Does the task use a classpath jar
      */
+    @Optional
+    @Input
     Boolean getUseClasspathJar() {
         useClasspathJar.get()
     }
@@ -183,6 +188,8 @@ class CompileThemeTask extends DefaultTask {
     /**
      * Extra jvm arguments passed the JVM running the compiler
      */
+    @Optional
+    @Input
     String[] getJvmArgs() {
         jvmArgs.present ? jvmArgs.get().toArray(new String[jvmArgs.get().size()]) : null
     }
