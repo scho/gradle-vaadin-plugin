@@ -16,6 +16,7 @@
 package com.devsoap.plugin.actions
 
 import com.devsoap.plugin.GradleVaadinPlugin
+import org.gradle.api.InvalidUserCodeException
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionListener
@@ -95,8 +96,11 @@ abstract class PluginAction {
             project.gradle.taskGraph.removeTaskExecutionListener(taskListener)
             project.gradle.taskGraph.addTaskExecutionListener(taskListener)
             execute(project)
-            project.afterEvaluate {
-                executeAfterEvaluate(project)
+            try {
+                project.afterEvaluate {
+                    executeAfterEvaluate(project)
+                }
+            } catch (InvalidUserCodeException e) {
             }
         }
     }
@@ -128,7 +132,7 @@ abstract class PluginAction {
 
         @Override
         void beforeExecute(Task task) {
-            if (isApplicable(task) ) {
+            if (isApplicable(task)) {
                 beforeTaskExecuted(task)
             }
         }
