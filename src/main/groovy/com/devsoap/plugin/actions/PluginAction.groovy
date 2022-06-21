@@ -55,7 +55,7 @@ abstract class PluginAction {
      * @param project
      *      the project which was evaluated
      */
-    protected void executeAfterEvaluate(Project project){
+    protected void executeAfterEvaluate(Project project) {
         project.logger.debug("Executing afterEvaluate hook for ${getClass().simpleName}")
     }
 
